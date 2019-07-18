@@ -1,5 +1,5 @@
 const postTypes = `
-    type POst {
+    type Post {
         id: ID!
         title: String!
         content: String!
@@ -7,7 +7,7 @@ const postTypes = `
         createdAt: String!
         updatedAt: String!
         author: User!
-        comments: [Comment!]!
+        comments(first: Int, offset: Int): [Comment!]!
     }
 
     input PostInput {
@@ -19,13 +19,13 @@ const postTypes = `
 `;
 
 const postQueries = `
-    posts(first: Inst, offset: Inst): [ Post! ]!
+    posts(first: Int, offset: Int): [ Post! ]!
     post(id: ID!): Post
 `;
 
 const postMutations = `
-    createPost(input: POstInput!): Post
-    updatePost(id: ID!, input: POstInput!): Post
+    createPost(input: PostInput!): Post
+    updatePost(id: ID!, input: PostInput!): Post
     deletePost(id: ID!): Boolean
 `;
 

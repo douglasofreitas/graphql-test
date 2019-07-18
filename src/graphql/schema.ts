@@ -10,7 +10,7 @@ import { userTypes } from './resources/user/user.schema';
 const SchemaDefinition = `
     type Schema {
         query: Query
-        mutation: Muration
+        mutation: Mutation
     }
 `;
 

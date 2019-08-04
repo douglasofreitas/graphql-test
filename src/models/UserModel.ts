@@ -5,7 +5,7 @@ import { BaseModelInterface } from "../interfaces/BaseModelInterface";
 import { ModelsInterface } from "../interfaces/ModelsInterface";
 
 export interface UserAttribtes {
-    if?: number;
+    id?: number;
     name?: string;
     email?: string;
     password?: string;

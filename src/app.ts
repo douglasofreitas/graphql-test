@@ -19,8 +19,8 @@ class App {
     }
 
     private init(): void {
-        this.dataLoaderFactory = new DataLoaderFactory(db);
         this.requestedFields = new RequestedFields();
+        this.dataLoaderFactory = new DataLoaderFactory(db, this.requestedFields);
         this.middleware();
     }
 
@@ -32,7 +32,7 @@ class App {
 
             (req, res, next) => {
                 req['context']['db'] = db;
-                req['context']['dataloaders'] = this.dataLoaderFactory;
+                req['context']['dataloaders'] = this.dataLoaderFactory.getLoaders();
                 req['context']['requestedFields'] = this.requestedFields;
                 next();
             },

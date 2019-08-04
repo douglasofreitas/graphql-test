@@ -7,20 +7,22 @@ import { handleError, throwError } from "../../../utils/utils";
 import { compose } from "../../composable/composable.resolver";
 import { authResolvers } from "../../composable/auth.resolver";
 import { AuthUser } from "../../../interfaces/AuthUserInterface";
+import { DataLoaders } from "../../../interfaces/DataLoadersInterface";
+import { RequestedFields } from "../../ast/RequestedFields";
 
 export const commentResolvers = { 
     
     Comment: {
 
-        user: (comment, args, {db}: {db: DbConnection}, info: GraphQLResolveInfo) => {
-            return db.User 
-                .findById(comment.get('user'))
+        user: (comment, args, {db, dataloaders: {userLoader}}: {db: DbConnection, dataloaders: DataLoaders}, info: GraphQLResolveInfo) => {
+            return userLoader
+                .load(comment.get('user'))
                 .catch(handleError);
         },
 
-        post: (comment, args, {db}: {db: DbConnection}, info: GraphQLResolveInfo) => {
-            return db.Post 
-                .findById(comment.get('post'))
+        post: (comment, args, {db, dataloaders: {postLoader}}: {db: DbConnection, dataloaders: DataLoaders}, info: GraphQLResolveInfo) => {
+            return postLoader
+                .load(comment.get('post'))
                 .catch(handleError);
         }
 
@@ -28,13 +30,14 @@ export const commentResolvers = {
 
     Query: {
 
-        commentsByPost: (parent, {postId, first = 10, offset = 0}, {db}: {db:DbConnection}, info: GraphQLResolveInfo) => {
+        commentsByPost: (parent, {postId, first = 10, offset = 0}, {db, requestedFields}: {db:DbConnection, requestedFields: RequestedFields}, info: GraphQLResolveInfo) => {
             postId = parseInt(postId);
             return db.Comment
                 .findAll({
                     where: {post: postId},
                     limit: first,
-                    offset: offset
+                    offset: offset,
+                    attributes: requestedFields.getFields(info)
                 })
                 .catch(handleError);
         }

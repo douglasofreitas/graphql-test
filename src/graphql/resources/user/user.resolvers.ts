@@ -82,8 +82,7 @@ export const userResolvers = {
                     .then((user: UserInstance) => {
                         //if(!user) throw Error(`User with id ${id} not found`);
                         throwError(!user, `User with id ${authUser.id} not found`);
-                        user.update(input, {transaction: t});
-                        return user;
+                        return user.update(input, {transaction: t});
                     })
             }).catch(handleError);
         }),
@@ -94,7 +93,7 @@ export const userResolvers = {
                     .findById(authUser.id)
                     .then((user: UserInstance) => {
                         throwError(!user, `User with id ${authUser.id} not found`);
-                        user.update(input, {transaction: t})
+                        return user.update(input, {transaction: t})
                             .then((user: UserInstance) => !!user)
                     })
             }).catch(handleError);

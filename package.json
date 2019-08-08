@@ -4,8 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "gulp": "node_modules/.bin/gulp",
+    "clusters": "NODE_ENV=development JWT_SECRET=jwt_prod node dist/clusters",
+    "build": "npm run gulp build",
+    "start": "npm run build && npm run clusters",
     "dev": "NODE_ENV=development JWT_SECRET=iron_man node_modules/.bin/nodemon --delay 5 dist/index",
+    "gulp": "node_modules/.bin/gulp",
     "test": "NODE_ENV=test JWT_SECRET=jwt_test mocha",
     "coverage": "nyc --extension .ts --include 'src/**/*.ts' --reporter html npm test"
   },

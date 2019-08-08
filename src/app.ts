@@ -1,6 +1,8 @@
 import * as cors from 'cors';
+import * as compression from 'compression';
 import * as express from 'express';
 import * as graphqlHTTP from 'express-graphql';
+import * as helmet from 'helmet';
 
 import db from './models';
 import schema from './graphql/schema';
@@ -34,6 +36,8 @@ class App {
             preflightContinue: false,
             optionsSuccessStatus: 204
         }));
+        this.express.use(compression());
+        this.express.use(helmet());
 
         this.express.use('/graphql', 
 

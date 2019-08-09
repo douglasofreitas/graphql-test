@@ -1,0 +1,1 @@
+The file post-receive is used on Bare Git repository on application server
